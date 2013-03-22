@@ -1,11 +1,10 @@
-# Credit to phreakmonkey.com / phreakmonkey at gmail 
+# Credit to phreakmonkey.com / phreakmonkey at gmail.com
 # For OS X, brew install swig, then easy_install M2Crypto
 # Modified the original code to only output expiration date
 
 import sys
 import socket
 import string
-
 from M2Crypto import SSL
 
 def reportIP(IPaddress):
@@ -18,7 +17,6 @@ def reportIP(IPaddress):
    conn.set_socket_read_timeout(timeout)
    conn.set_socket_write_timeout(timeout)
    try:
-#     sys.stderr.write('Connecting '+IPaddress+'. ')
       sys.stderr.flush()
       conn.connect((IPaddress, 443))
    except:
@@ -26,7 +24,6 @@ def reportIP(IPaddress):
       sys.stderr.write('failed.\n')
       sys.stderr.flush()
       return
-#  sys.stderr.write('Getting cert info. ')
    sys.stderr.flush()
 
    cert = conn.get_peer_cert()
@@ -39,9 +36,7 @@ def reportIP(IPaddress):
       conn.close
       return
 
-#  sys.stderr.write('done\n')
    sys.stderr.flush()
-      
    csubject = cert.get_subject().as_text()
    try:
       cAltName = cert.get_ext('subjectAltName').get_value()
@@ -56,7 +51,6 @@ def reportIP(IPaddress):
    except AttributeError:
       cExpiry = ""
    conn.close
-   #print IPaddress+"|"+cCN+"|"+csubject+"|"+cissuer+"|"+cAltName+"|"+cExpiry
    print cExpiry
 
 reportIP(sys.argv[1])
